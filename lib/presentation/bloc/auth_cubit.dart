@@ -8,21 +8,24 @@ class UnAuthenticated extends AuthState {}
 
 class Authenticated extends AuthState {
   final Credentials credentials;
+
   Authenticated({required this.credentials});
 }
 
 class AuthenticatedError extends AuthState {
   final String message;
+
   AuthenticatedError({required this.message});
 }
 
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(UnAuthenticated());
 
-  Future<void> initialAuthenticate () async {
+  Future<void> initialAuthenticate() async {
     try {
-      bool hasValidCredentials = await AuthService.instance.hasValidCredentials();
-      if(hasValidCredentials) {
+      bool hasValidCredentials =
+          await AuthService.instance.hasValidCredentials();
+      if (hasValidCredentials) {
         final credentials = await AuthService.instance.getCredentials();
         emit(Authenticated(credentials: credentials));
       } else {
@@ -32,6 +35,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthenticatedError(message: e.toString()));
     }
   }
+
   Future<void> login() async {
     try {
       final credentials = await AuthService.instance.login();
@@ -46,7 +50,13 @@ class AuthCubit extends Cubit<AuthState> {
       await AuthService.instance.logout();
       emit(UnAuthenticated());
     } catch (e) {
-      emit(AuthenticatedError(message: e.toString()));
+      //Handle when cancel logout
+      if (e.toString().contains("a0.authentication_canceled")) {
+        final credentials = await AuthService.instance.getCredentials();
+        emit(Authenticated(credentials: credentials));
+      } else {
+        emit(AuthenticatedError(message: e.toString()));
+      }
     }
   }
 }

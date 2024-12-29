@@ -1,5 +1,7 @@
 import 'package:electro_shop/domain/entities/category_entity.dart';
+import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({super.key, required this.category});
@@ -7,7 +9,9 @@ class CategoryWidget extends StatelessWidget {
   final CategoryEntity category;
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Card(
+      color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
@@ -34,6 +38,7 @@ class CategoryWidget extends StatelessWidget {
                 category.name,
                 style: const TextStyle(
                   fontSize: 10,
+                  color: Colors.black
                 ),
               )
             ],

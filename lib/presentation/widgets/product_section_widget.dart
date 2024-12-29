@@ -13,9 +13,8 @@ class ProductSectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>  GetIt.instance<ProductsCubit>()
-        ..getProducts(1, productPerPage),
+    return BlocProvider<ProductsCubit>.value(
+      value: GetIt.instance<ProductsCubit>(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -26,7 +25,7 @@ class ProductSectionWidget extends StatelessWidget {
           BlocBuilder<ProductsCubit, ProductsState>(
             builder: (context, state) {
               if (state is LoadingProducts) {
-                final prevProducts = state.prevProducts ?? []; // Fallback nếu null
+                final prevProducts = state.prevProducts ?? [];
                 return GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -38,13 +37,11 @@ class ProductSectionWidget extends StatelessWidget {
                   ),
                   itemCount: prevProducts.isEmpty
                       ? 4
-                      : prevProducts.length + productPerPage - 2, // Tổng số sản phẩm + placeholder
+                      : prevProducts.length + productPerPage, // Tổng số sản phẩm + placeholder
                   itemBuilder: (context, index) {
                     if (index < prevProducts.length) {
-                      // Hiển thị sản phẩm cũ
                       return ProductWidget(product: prevProducts[index]);
                     }
-                    // Hiển thị shimmer
                     return Shimmer.fromColors(
                       baseColor: Colors.grey[300]!,
                       highlightColor: Colors.grey[100]!,

@@ -12,6 +12,7 @@ import 'package:electro_shop/domain/repositories/product_repository.dart';
 import 'package:electro_shop/domain/use_case/get_categories.dart';
 import 'package:electro_shop/domain/use_case/get_products.dart';
 import 'package:electro_shop/presentation/bloc/auth_cubit.dart';
+import 'package:electro_shop/presentation/bloc/categories_cubit.dart';
 import 'package:electro_shop/presentation/bloc/products_cubit.dart';
 import 'package:get_it/get_it.dart';
 
@@ -27,6 +28,7 @@ class DependencyInjection {
     getIt.registerSingleton<CategoryApiSource>(CategoryApiSourceImpl(apiSource: getIt<ApiSource>()));
     getIt.registerSingleton<CategoryRepository>(CategoryRepositoryImpl(categoryApiSource: getIt<CategoryApiSource>()));
     getIt.registerSingleton<GetCategories>(GetCategories(categoryRepository: getIt<CategoryRepository>()));
-    getIt.registerSingleton<ProductsCubit>(ProductsCubit(useCase: getIt<GetProducts>()));
+    getIt.registerSingleton<CategoriesCubit>(CategoriesCubit(useCase: getIt<GetCategories>())..getCategories());
+    getIt.registerSingleton<ProductsCubit>(ProductsCubit(useCase: getIt<GetProducts>())..getProducts(1, productPerPage));
   }
 }

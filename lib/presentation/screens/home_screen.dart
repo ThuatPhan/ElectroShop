@@ -2,14 +2,16 @@ import 'package:badges/badges.dart' as badges;
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/presentation/bloc/products_cubit.dart';
 import 'package:electro_shop/presentation/screens/profile_screen.dart';
+import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:electro_shop/presentation/widgets/banner_widget.dart';
 import 'package:electro_shop/presentation/widgets/category_section_widget.dart';
 import 'package:electro_shop/presentation/widgets/product_section_widget.dart';
 import 'package:electro_shop/presentation/widgets/search_widget.dart';
+import 'package:electro_shop/presentation/widgets/ship_location_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late List<Widget> _screens;
   final List<SalomonBottomBarItem> _bottomBarItems = [
     SalomonBottomBarItem(
-      icon: const Icon(FontAwesomeIcons.home),
+      icon: const Icon(FontAwesomeIcons.house),
       title: const Text("Trang chủ"),
       selectedColor: Colors.green,
     ),
@@ -36,13 +38,13 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedColor: Colors.green,
     ),
     SalomonBottomBarItem(
-      icon: const Icon(FontAwesomeIcons.clock),
-      title: const Text("Đơn đã mua"),
+      icon: const Icon(FontAwesomeIcons.cartShopping),
+      title: const Text("Giỏ hàng"),
       selectedColor: Colors.green,
     ),
     SalomonBottomBarItem(
       icon: const Icon(FontAwesomeIcons.user),
-      title: const Text("Hồ sơ"),
+      title: const Text("Tôi"),
       selectedColor: Colors.green,
     ),
   ];
@@ -52,32 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _appBars = [
       AppBar(
-        backgroundColor: Colors.green,
-        title: GestureDetector(
-          onTap: () {},
-          child: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Giao hàng tới',
-                style: TextStyle(fontSize: titleSize, fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-              Row(
-                children: [
-                  Text(
-                    '494 Lê Văn Việt, TP. Hồ Chí Minh',
-                    style: TextStyle(fontSize: titleSize, color: Colors.white),
-                  ),
-                  Icon(
-                      Icons.keyboard_arrow_down,
-                      size: 20,
-                      color: Colors.white
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        // backgroundColor: Colors.green,
+        title: const ShipLocationWidget(),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 8.0),
@@ -86,44 +64,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: badges.Badge(
                     position: badges.BadgePosition.topEnd(top: -15, end: -15),
                     badgeContent: const Text('3'),
-                    child: const Icon(FontAwesomeIcons.cartShopping, color: Colors.white)
+                    child: Consumer<ThemeProvider>(
+                      builder: (context, themeProvider, _) {
+                        return Icon(
+                          FontAwesomeIcons.cartShopping,
+                          color: themeProvider.themeMode == ThemeMode.dark
+                              ? Colors.white
+                              : Colors.black,
+                        );
+                      },
+                    ),
                 )
             ),
           ),
         ],
       ),
+      AppBar(),
+      AppBar(),
       AppBar(
-        title: const Align(
-          alignment: Alignment.center,
-          child: Text(
-              'Yêu thích',
-              style: TextStyle(
-                  fontSize: headerSize
-              )
-          ),
-        ),
-      ),
-      AppBar(
-        title: const Align(
-          alignment: Alignment.center,
-          child: Text(
-              'Lịch sử',
-              style: TextStyle(
-                  fontSize: headerSize
-              )
-          ),
-        ),
-      ),
-      AppBar(
-        title: const Align(
-          alignment: Alignment.center,
-          child: Text(
-              'Hồ sơ',
-              style: TextStyle(
-                  fontSize: headerSize
-              )
-          ),
-        ),
+        backgroundColor: Colors.green,
       ),
     ];
     _screens = [
@@ -190,7 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBars[_selectedIndex],
-      body: _screens[_selectedIndex] ,
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _screens,
+      ) ,
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _selectedIndex,
         onTap: (index) {
