@@ -1,5 +1,4 @@
 import 'package:electro_shop/constants.dart';
-import 'package:electro_shop/domain/use_case/get_categories.dart';
 import 'package:electro_shop/presentation/bloc/categories_cubit.dart';
 import 'package:electro_shop/presentation/widgets/category_widget.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +11,8 @@ class CategorySectionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => CategoriesCubit(
-          useCase: GetIt.instance<GetCategories>()
-      )..getCategories(),
+    return BlocProvider<CategoriesCubit>.value(
+      value: GetIt.instance<CategoriesCubit>(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

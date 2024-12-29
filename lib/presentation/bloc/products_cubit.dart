@@ -36,6 +36,7 @@ class ProductsCubit extends Cubit<ProductsState> {
 
   ProductsCubit({required this.useCase}) : super(LoadingProducts());
 
+
   Future<void> getProducts(int pageNumber, int pageSize, {bool isRefresh = false}) async {
     if (_isFetching || !_hasMore) {
       return;
