@@ -3,4 +3,5 @@ import 'package:electro_shop/domain/entities/product_entity.dart';
 
 abstract class ProductRepository {
   Future<PagedModel<ProductEntity>> getProducts (int pageNumber, int pageSize);
+  Future<PagedModel<ProductEntity>> searchProducts(String keyword, int pageNumber, int pageSize);
 }

@@ -11,4 +11,9 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<PagedModel<ProductEntity>> getProducts(int pageNumber, int pageSize) async {
     return await productApiSource.fetchGetProducts(pageSize, pageNumber);
   }
+
+  @override
+  Future<PagedModel<ProductEntity>> searchProducts(String keyword, int pageNumber, int pageSize) async {
+    return await productApiSource.fetchSearchProducts(keyword, pageNumber, pageSize);
+  }
 }
