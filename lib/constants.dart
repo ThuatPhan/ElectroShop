@@ -11,4 +11,4 @@ const double titleSize = 13;
 const double productNameSize = 13;
 const double productPriceSize = 12;
 
-const int productPerPage = 4;
+const int productPerPage = 6;

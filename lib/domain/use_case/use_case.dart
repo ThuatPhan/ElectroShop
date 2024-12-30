@@ -7,6 +7,14 @@ class GetProductsParams {
   GetProductsParams({required this.pageNumber, required this.pageSize});
 }
 
+class SearchProductParams {
+  String keyword;
+  int pageNumber;
+  int pageSize;
+
+  SearchProductParams({required this.keyword, required this.pageNumber, required this.pageSize});
+}
+
 abstract class UseCase<Type, Params> {
   Future<Type> call(Params params);
 }

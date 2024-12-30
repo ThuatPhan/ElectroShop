@@ -6,7 +6,6 @@ import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:electro_shop/presentation/widgets/banner_widget.dart';
 import 'package:electro_shop/presentation/widgets/category_section_widget.dart';
 import 'package:electro_shop/presentation/widgets/product_section_widget.dart';
-import 'package:electro_shop/presentation/widgets/search_widget.dart';
 import 'package:electro_shop/presentation/widgets/ship_location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -98,7 +97,43 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               //Search
               SliverToBoxAdapter(
-                child: SearchWidget(),
+                child: Consumer<ThemeProvider>(
+                    builder: (context, themeProvider, _) => GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/search'),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 0.5,
+                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width: 50,
+                                  child: Icon(FontAwesomeIcons.magnifyingGlass)
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Tìm tên sản phẩm ...',
+                                      hintStyle: TextStyle(
+                                          fontSize: titleSize
+                                      )
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                ),
               ),
               const SliverToBoxAdapter(
                 child: SizedBox(height: 10),

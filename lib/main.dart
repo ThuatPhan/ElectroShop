@@ -1,5 +1,7 @@
 import 'package:electro_shop/dependency_injection.dart';
 import 'package:electro_shop/presentation/screens/home_screen.dart';
+import 'package:electro_shop/presentation/screens/search_result_screen.dart';
+import 'package:electro_shop/presentation/screens/search_screen.dart';
 import 'package:electro_shop/presentation/utils/app_themes.dart';
 import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +34,8 @@ class MyApp extends StatelessWidget {
           initialRoute: '/',
           routes: {
             '/': (context) => const HomeScreen(),
+            '/search' : (context) => SearchScreen(),
+            '/search-result': (context) => const SearchResultScreen()
           },
         );
       },
