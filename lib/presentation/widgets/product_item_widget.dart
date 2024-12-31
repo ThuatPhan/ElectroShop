@@ -44,7 +44,7 @@ class ProductItemWidget extends StatelessWidget {
                       children: [
                         Text(
                           product.name,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
