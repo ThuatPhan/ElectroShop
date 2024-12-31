@@ -6,7 +6,6 @@ import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:electro_shop/presentation/widgets/banner_widget.dart';
 import 'package:electro_shop/presentation/widgets/category_section_widget.dart';
 import 'package:electro_shop/presentation/widgets/product_section_widget.dart';
-import 'package:electro_shop/presentation/widgets/ship_location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -53,8 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _appBars = [
       AppBar(
-        // backgroundColor: Colors.green,
-        title: const ShipLocationWidget(),
+        leading: Image.asset(
+          'assets/images/shopping-cart.gif',
+          height: 50,
+          width: 50,
+        ),
+        title: const Center(child: Text('ShopDuck',style: TextStyle(fontWeight: FontWeight.bold,color: Colors.green),)),
         actions: [
           Container(
             margin: const EdgeInsets.only(right: 8.0),

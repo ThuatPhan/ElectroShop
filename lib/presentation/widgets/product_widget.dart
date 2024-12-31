@@ -15,6 +15,11 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+          context,
+          '/detail',
+          arguments: {'productId': product.id}
+      ),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -54,7 +59,7 @@ class ProductWidget extends StatelessWidget {
               ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                backgroundColor: const Color(buttonPrimaryColor),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),

@@ -3,7 +3,7 @@ class VariantEntity {
   final int productId;
   final String optionName;
   final String name;
-  final String? image;
+  final String image;
   final double price;
   final int stock;
 

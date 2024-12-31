@@ -7,6 +7,11 @@ class GetProductsParams {
   GetProductsParams({required this.pageNumber, required this.pageSize});
 }
 
+class GetProductParams{
+  int id;
+  GetProductParams({required this.id});
+}
+
 class SearchProductParams {
   String keyword;
   int pageNumber;
