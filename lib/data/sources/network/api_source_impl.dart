@@ -18,9 +18,9 @@ class ApiSourceImpl implements ApiSource {
 
     final response = await http.get(url, headers: headers);
     if (response.statusCode == 200) {
-      final data = jsonDecode(response.body);
+      Map<String, dynamic> jsonResponse = jsonDecode(response.body);
       if (fromJson != null) {
-        return fromJson(data);
+        return fromJson(jsonResponse['data']);
       } else {
         throw Exception("fromJson function must be provided for type $T");
       }
