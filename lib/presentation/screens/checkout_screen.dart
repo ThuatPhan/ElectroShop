@@ -16,9 +16,11 @@ class CheckoutScreen extends StatelessWidget {
 
   double _calculateTotalAmount() {
     double total = products.fold(0.0, (previousValue, element) {
-      return previousValue + (element.selectedVariant != null
-          ? element.selectedVariant!.price
-          : element.product.price);
+      return previousValue + (
+          element.selectedVariant != null
+          ? (element.selectedVariant!.price * element.quantity)
+          : (element.product.price * element.quantity)
+      );
     });
     return total;
   }
@@ -64,7 +66,14 @@ class CheckoutScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final product = products[index].product;
                   final selectedVariant = products[index].selectedVariant;
-                  return ProductItemWidget(product: product, selectedVariant: selectedVariant);
+                  final quantity = products[index].quantity;
+                  return ProductItemWidget(
+                      productItemEntity: ProductItemEntity(
+                          product: product,
+                          selectedVariant: selectedVariant,
+                          quantity: quantity
+                      )
+                  );
                 },
             ),
           ),
@@ -106,7 +115,12 @@ class CheckoutScreen extends StatelessWidget {
                       backgroundColor: const Color(buttonPrimaryColor),
                     ),
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const PaymentsSuccessScreen(),));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const PaymentsSuccessScreen()
+                        )
+                      );
                     },
                     child: const Text(
                       'Chọn phương thức thanh toán',
