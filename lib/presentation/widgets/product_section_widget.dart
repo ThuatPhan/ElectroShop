@@ -36,7 +36,7 @@ class ProductSectionWidget extends StatelessWidget {
                     childAspectRatio: 3 / 4,
                   ),
                   itemCount: prevProducts.isEmpty
-                      ? 4
+                      ? productPerPage
                       : prevProducts.length + productPerPage, // Tổng số sản phẩm + placeholder
                   itemBuilder: (context, index) {
                     if (index < prevProducts.length) {

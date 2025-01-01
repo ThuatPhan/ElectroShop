@@ -1,4 +1,5 @@
 import 'package:electro_shop/dependency_injection.dart';
+import 'package:electro_shop/presentation/screens/product_by_category_screen.dart';
 import 'package:electro_shop/presentation/screens/detail_screen.dart';
 import 'package:electro_shop/presentation/screens/search_result_screen.dart';
 import 'package:electro_shop/presentation/screens/search_screen.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
             '/search' : (context) => SearchScreen(),
             '/search-result': (context) => const SearchResultScreen(),
             '/detail': (context) => const DetailScreen(),
+            '/category': (context) => const ProductByCategoryScreen(),
           },
         );
       },
