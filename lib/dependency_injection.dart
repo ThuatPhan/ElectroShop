@@ -16,9 +16,12 @@ import 'package:electro_shop/domain/use_case/search_product.dart';
 import 'package:electro_shop/presentation/bloc/auth_cubit.dart';
 import 'package:electro_shop/presentation/bloc/categories_cubit.dart';
 import 'package:electro_shop/presentation/bloc/product_detail_cubit.dart';
+import 'package:electro_shop/presentation/bloc/product_of_category_cubit.dart';
 import 'package:electro_shop/presentation/bloc/products_cubit.dart';
 import 'package:electro_shop/presentation/bloc/search_product_cubit.dart';
 import 'package:get_it/get_it.dart';
+
+import 'domain/use_case/get_product_of_category.dart';
 
 class DependencyInjection {
   final getIt = GetIt.instance;
@@ -36,11 +39,13 @@ class DependencyInjection {
     getIt.registerSingleton<GetCategories>(GetCategories(categoryRepository: getIt<CategoryRepository>()));
     getIt.registerSingleton<GetProducts>(GetProducts(productRepository: getIt<ProductRepository>()));
     getIt.registerFactory<GetProduct>(() => GetProduct(productRepository: getIt<ProductRepository>()));
+    getIt.registerFactory< GetProductOfCategory>(()=> GetProductOfCategory(productRepository: getIt<ProductRepository>()));
     getIt.registerSingleton<SearchProduct>(SearchProduct(productApiSource: getIt<ProductApiSource>()));
     //Cubits
     getIt.registerSingleton<CategoriesCubit>(CategoriesCubit(useCase: getIt<GetCategories>())..getCategories());
     getIt.registerSingleton<ProductsCubit>(ProductsCubit(useCase: getIt<GetProducts>())..getProducts(1, productPerPage));
     getIt.registerFactory<ProductDetailCubit>(() => ProductDetailCubit(useCase: getIt<GetProduct>()));
+    getIt.registerFactory<ProductOfCategoryCubit>(()=> ProductOfCategoryCubit(useCase: getIt<GetProductOfCategory>()));
     getIt.registerFactory<SearchProductCubit>(() => SearchProductCubit(useCase: GetIt.instance<SearchProduct>()));
   }
 }

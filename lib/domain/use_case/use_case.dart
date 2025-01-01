@@ -12,6 +12,13 @@ class GetProductParams{
   GetProductParams({required this.id});
 }
 
+class GetProductOfCategoryParams{
+  int categoryId;
+  int pageNumber;
+  int pageSize;
+  GetProductOfCategoryParams({required this.categoryId,required this.pageNumber,required this.pageSize});
+}
+
 class SearchProductParams {
   String keyword;
   int pageNumber;
