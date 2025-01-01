@@ -1,8 +1,8 @@
 import 'package:electro_shop/presentation/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-class PaymentsSuccessScreen extends StatelessWidget {
-  const PaymentsSuccessScreen({super.key});
+class PaymentSuccessScreen extends StatelessWidget {
+  const PaymentSuccessScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +53,7 @@ class PaymentsSuccessScreen extends StatelessWidget {
               // Continue button
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => const HomeScreen(),));
+                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => const HomeScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
