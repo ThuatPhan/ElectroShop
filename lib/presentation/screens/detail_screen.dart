@@ -357,7 +357,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => CheckoutScreen(
                                         products: [
-                                          ProductItemEntity(product: _product, selectedVariant: _selectedVariant),
+                                          ProductItemEntity(
+                                              product: _product,
+                                              selectedVariant: _selectedVariant,
+                                              quantity: _currentQuantity
+                                          ),
                                         ],
                                     )
                                 )

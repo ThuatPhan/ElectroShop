@@ -1,13 +1,11 @@
-import 'package:electro_shop/domain/entities/product_entity.dart';
-import 'package:electro_shop/domain/entities/variant_entity.dart';
+import 'package:electro_shop/domain/entities/product_item_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ProductItemWidget extends StatelessWidget {
-  const ProductItemWidget({super.key, required this.product, this.selectedVariant});
+  const ProductItemWidget({super.key, required this.productItemEntity});
 
-  final ProductEntity product;
-  final VariantEntity? selectedVariant;
+  final ProductItemEntity productItemEntity;
 
   String _formatPrice (double price) {
     return NumberFormat.currency(locale: 'vi_VN', symbol: '₫').format(price);
@@ -31,7 +29,9 @@ class ProductItemWidget extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image.network(
-                      selectedVariant != null ? selectedVariant!.image : product.image,
+                      productItemEntity.selectedVariant != null
+                          ? productItemEntity.selectedVariant!.image
+                          : productItemEntity.product.image,
                       height: 100,
                       width: 100,
                       fit: BoxFit.cover,
@@ -43,22 +43,33 @@ class ProductItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.name,
-                          style: TextStyle(
+                            productItemEntity.product.name,
+                            style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),
                         ),
-                        if(selectedVariant != null)
+                        if(productItemEntity.selectedVariant != null)
                           Text(
-                            'Phân loại: ${selectedVariant!.optionName}',
+                            'Phân loại: ${productItemEntity.selectedVariant!.optionName}',
                             style: const TextStyle(
                               color: Colors.grey,
                               fontSize: 14,
                             ),
                           ),
                         Text(
-                          _formatPrice(selectedVariant != null ? selectedVariant!.price : product.price),
+                          'Số lượng: ${productItemEntity.quantity}',
+                          style: const TextStyle(
+                            color: Colors.grey,
+                            fontSize: 14,
+                          ),
+                        ),
+                        Text(
+                          _formatPrice(
+                              productItemEntity.selectedVariant != null
+                              ? productItemEntity.selectedVariant!.price
+                              : productItemEntity.product.price
+                          ),
                           style: const TextStyle(
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
