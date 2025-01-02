@@ -51,7 +51,6 @@ dependencies:
   shared_preferences: ^2.3.3
   uuid: ^4.5.1
   flutter_stripe: ^11.3.0
-  uni_links: ^0.5.1
 
 dev_dependencies:
   flutter_test:
