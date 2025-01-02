@@ -43,8 +43,8 @@ class ProductItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          productItemEntity.product.name,
-                          style: const TextStyle(
+                            productItemEntity.product.name,
+                            style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 15,
                           ),

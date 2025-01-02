@@ -1,5 +1,6 @@
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/domain/entities/product_entity.dart';
+import 'package:electro_shop/presentation/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -57,7 +58,9 @@ class ProductWidget extends StatelessWidget {
                 ),
               ),
               ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen(),));
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(buttonPrimaryColor),
                 shape: RoundedRectangleBorder(
