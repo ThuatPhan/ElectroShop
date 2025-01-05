@@ -15,252 +15,13 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>  GetIt.instance<AuthCubit>(),
-      child: BlocBuilder<AuthCubit, AuthState>(
-        builder: (context, state) {
-          if(state is UnAuthenticated) {
-            return Column(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      color: Colors.green,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Card(
-                              child: Container(
-                                width: 69,
-                                height: 69,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8.0)
-                                ),
-                                child: const Icon(FontAwesomeIcons.userSecret),
-                              ),
-                            ),
-                            ElevatedButton(
-                              onPressed: () async {
-                                await context.read<AuthCubit>().login();
-                              },
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  )
-                                ),
-                              child: const Text("Đăng nhập")
-                            )
-                          ],
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Người dùng',
-                        style: TextStyle(
-                            fontSize: titleSize,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Card(
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey,
-                                      )
-                                  )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.pushNamed(context, '/cart');
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                color: Colors.green
-                                            ),
-                                            child: const Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Icon(FontAwesomeIcons.cartShopping, color: Colors.white)
-                                            )
-                                        ),
-                                        const SizedBox(width: 10),
-                                        const Text("Giỏ hàng")
-                                      ],
-                                    ),
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey,
-                                      )
-                                  )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.blue
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.clock, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Đơn hàng đã mua")
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.pink
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.heart, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Sản phẩm yêu thích")
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Text(
-                        'Hệ thống',
-                        style: TextStyle(
-                            fontSize: titleSize,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Card(
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey,
-                                      )
-                                  )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.cyan
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.message, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Phản hồi"),
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.blueAccent
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.solidMoon, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Chế độ tối"),
-                                    ],
-                                  ),
-                                  Consumer<ThemeProvider>(
-                                    builder: (context, themeProvider, _) => Switch(
-                                      value: themeProvider.themeMode == ThemeMode.dark,
-                                      onChanged: (value) {
-                                        themeProvider.toggleTheme();
-                                      },
-                                    )
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            );
-          } else if (state is Authenticated) {
-            final UserProfile userProfile = state.credentials.user;
-            return Column(
-              children: [
-                Column(
+      child: Column(
+        children: [
+          BlocBuilder<AuthCubit, AuthState>(
+            builder: (context, state) {
+              if(state is Authenticated) {
+                final UserProfile userProfile = state.credentials.user;
+                return Column(
                   children: [
                     Container(
                       color: Colors.green,
@@ -292,198 +53,246 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     )
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Người dùng',
-                        style: TextStyle(
-                            fontSize: titleSize,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Card(
-                        child: Column(
+                );
+              }
+              if(state is UnAuthenticated) {
+                return Column(
+                  children: [
+                    Container(
+                      color: Colors.green,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey,
-                                      )
-                                  )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.green
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.cartShopping, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Giỏ hàng")
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
+                            Card(
+                              child: Container(
+                                width: 69,
+                                height: 69,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8.0)
+                                ),
+                                child: const Icon(FontAwesomeIcons.userSecret),
                               ),
                             ),
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey,
-                                      )
-                                  )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.blue
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.clock, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Đơn hàng đã mua")
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.pink
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.heart, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Sản phẩm yêu thích")
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Text(
-                        'Hệ thống',
-                        style: TextStyle(
-                            fontSize: titleSize,
-                            fontWeight: FontWeight.bold
-                        ),
-                      ),
-                      Card(
-                        child: Column(
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                      bottom: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.grey,
-                                      )
-                                  )
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.cyan
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.message, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Phản hồi"),
-                                    ],
-                                  ),
-                                  const Icon(Icons.keyboard_arrow_right_outlined)
-                                ],
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.blueAccent
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.solidMoon, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Chế độ tối"),
-                                    ],
-                                  ),
-                                  Consumer<ThemeProvider>(
-                                    builder: (context, themeProvider, _) => Switch(
-                                      value: themeProvider.themeMode == ThemeMode.dark,
-                                      onChanged: (value) {
-                                        themeProvider.toggleTheme();
-                                      },
+                            ElevatedButton(
+                                onPressed: () async {
+                                  await context.read<AuthCubit>().login();
+                                },
+                                style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8),
                                     )
-                                  )
-                                ],
-                              ),
-                            ),
+                                ),
+                                child: const Text("Đăng nhập")
+                            )
                           ],
                         ),
                       ),
-                      GestureDetector(
+                    )
+                  ],
+                );
+              }
+              return Container();
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Người dùng',
+                  style: TextStyle(
+                      fontSize: titleSize,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                Card(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.grey,
+                                )
+                            )
+                        ),
+                        child: GestureDetector(
+                          onTap: () => Navigator.pushNamed(context, '/cart'),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                          color: Colors.green
+                                      ),
+                                      child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(FontAwesomeIcons.cartShopping, color: Colors.white)
+                                      )
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text("Giỏ hàng")
+                                ],
+                              ),
+                              const Icon(Icons.keyboard_arrow_right_outlined)
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.grey,
+                                )
+                            )
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        color: Colors.blue
+                                    ),
+                                    child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(FontAwesomeIcons.clock, color: Colors.white)
+                                    )
+                                ),
+                                const SizedBox(width: 10),
+                                const Text("Đơn hàng đã mua")
+                              ],
+                            ),
+                            const Icon(Icons.keyboard_arrow_right_outlined)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        color: Colors.pink
+                                    ),
+                                    child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(FontAwesomeIcons.heart, color: Colors.white)
+                                    )
+                                ),
+                                const SizedBox(width: 10),
+                                const Text("Sản phẩm yêu thích")
+                              ],
+                            ),
+                            const Icon(Icons.keyboard_arrow_right_outlined)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Text(
+                  'Hệ thống',
+                  style: TextStyle(
+                      fontSize: titleSize,
+                      fontWeight: FontWeight.bold
+                  ),
+                ),
+                Card(
+                  child: Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        decoration: const BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                  width: 1.0,
+                                  color: Colors.grey,
+                                )
+                            )
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        color: Colors.cyan
+                                    ),
+                                    child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(FontAwesomeIcons.message, color: Colors.white)
+                                    )
+                                ),
+                                const SizedBox(width: 10),
+                                const Text("Phản hồi"),
+                              ],
+                            ),
+                            const Icon(Icons.keyboard_arrow_right_outlined)
+                          ],
+                        ),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        color: Colors.blueAccent
+                                    ),
+                                    child: const Padding(
+                                        padding: EdgeInsets.all(8.0),
+                                        child: Icon(FontAwesomeIcons.solidMoon, color: Colors.white)
+                                    )
+                                ),
+                                const SizedBox(width: 10),
+                                const Text("Chế độ tối"),
+                              ],
+                            ),
+                            Consumer<ThemeProvider>(
+                                builder: (context, themeProvider, _) => Switch(
+                                  value: themeProvider.themeMode == ThemeMode.dark,
+                                  onChanged: (value) {
+                                    themeProvider.toggleTheme();
+                                  },
+                                )
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                BlocBuilder<AuthCubit, AuthState>(
+                  builder: (context, state) {
+                    if(state is Authenticated) {
+                      return GestureDetector(
                         onTap: () async {
                           await context.read<AuthCubit>().logout();
                         },
@@ -514,21 +323,15 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      );
+                    }
+                    return Container();
+                  },
                 )
               ],
-            );
-          } else if (state is AuthenticatedError) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-             ScaffoldMessenger.of(context).showSnackBar(
-               SnackBar(content: Text(state.message))
-             );
-            });
-          }
-          return Container();
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
