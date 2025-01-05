@@ -9,7 +9,6 @@ class ProductEntity {
   final double price;
   final int stock;
   final CategoryEntity category;
-  final bool isVariant;
   final List<VariantEntity>? variants;
 
   ProductEntity(
@@ -19,7 +18,6 @@ class ProductEntity {
       required this.image,
       required this.price,
       required this.stock,
-      required this.isVariant,
       required this.category,
       this.variants});
 }

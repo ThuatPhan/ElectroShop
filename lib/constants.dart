@@ -12,5 +12,5 @@ const double productNameSize = 13;
 const double productPriceSize = 12;
 const int buttonPrimaryColor = 0xFF54C392;
 const int buttonDangerColor = 0xFFF14A00;
-const int productPerPage = 6;
+const int productPerPage = 4;
 

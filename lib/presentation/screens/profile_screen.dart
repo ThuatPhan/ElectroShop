@@ -85,21 +85,26 @@ class ProfileScreen extends StatelessWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              color: Colors.green
-                                          ),
-                                          child: const Padding(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Icon(FontAwesomeIcons.cartShopping, color: Colors.white)
-                                          )
-                                      ),
-                                      const SizedBox(width: 10),
-                                      const Text("Giỏ hàng")
-                                    ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/cart');
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                color: Colors.green
+                                            ),
+                                            child: const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Icon(FontAwesomeIcons.cartShopping, color: Colors.white)
+                                            )
+                                        ),
+                                        const SizedBox(width: 10),
+                                        const Text("Giỏ hàng")
+                                      ],
+                                    ),
                                   ),
                                   const Icon(Icons.keyboard_arrow_right_outlined)
                                 ],

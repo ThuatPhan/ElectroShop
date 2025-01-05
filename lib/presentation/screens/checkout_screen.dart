@@ -8,7 +8,6 @@ import 'package:electro_shop/presentation/utils/format_price.dart';
 import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:electro_shop/presentation/widgets/location_picker_widget.dart';
 import 'package:electro_shop/presentation/widgets/product_item_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

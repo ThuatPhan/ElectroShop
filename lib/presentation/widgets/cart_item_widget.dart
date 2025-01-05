@@ -1,8 +1,26 @@
+import 'package:electro_shop/domain/entities/product_item_entity.dart';
+import 'package:electro_shop/presentation/bloc/cart_cubit.dart';
+import 'package:electro_shop/presentation/utils/format_price.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get_it/get_it.dart';
 
-class CartItemWidget extends StatelessWidget {
-  const CartItemWidget({super.key});
+class CartItemWidget extends StatefulWidget {
+  const CartItemWidget({super.key, required this.productItem});
+  final ProductItemEntity productItem;
 
+  @override
+  State<CartItemWidget> createState() => _CartItemWidgetState();
+}
+
+class _CartItemWidgetState extends State<CartItemWidget> {
+  Future<void> _updateCartItemQuantity (int quantity) async {
+    await GetIt.instance<CartCubit>().updateCartItem(
+        widget.productItem.product.id,
+        widget.productItem.selectedVariant?.id,
+        quantity
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -20,7 +38,9 @@ class CartItemWidget extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(8.0),
                   child: Image.network(
-                    'https://product.hstatic.net/200000144777/product/4_f90577642b31470cbc7fefdc19a1bd37_master.png',
+                    widget.productItem.selectedVariant != null
+                        ? widget.productItem.selectedVariant!.image
+                        : widget.productItem.product.image,
                     height: 100,
                     width: 100,
                     fit: BoxFit.cover,
@@ -32,25 +52,39 @@ class CartItemWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Iphone 15 pro max',
-                        style: TextStyle(
+                      Text(
+                        widget.productItem.product.name,
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
                         ),
                       ),
                       const SizedBox(height: 5),
-                      const Text(
-                        'Phân loại',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 14,
+                      if(widget.productItem.selectedVariant != null)
+                        Row(
+                          children: [
+                            const Text(
+                              'Phân loại:',
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              widget.productItem.selectedVariant!.optionName,
+                              style: const TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14,
+                              ),
+                            )
+                          ],
                         ),
-                      ),
                       const SizedBox(height: 5),
-                      const Text(
-                        '19,280,000 VNĐ',
-                        style: TextStyle(
+                      Text(
+                        formatPrice(widget.productItem.selectedVariant != null
+                            ? widget.productItem.selectedVariant!.price
+                            : widget.productItem.product.price),
+                        style: const TextStyle(
                           color: Colors.green,
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
@@ -63,15 +97,28 @@ class CartItemWidget extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: const Icon(Icons.remove),
-                              onPressed: () {},
+                              onPressed: () {
+                                int quantity = widget.productItem.quantity;
+                                if(quantity >= 1) {
+                                  _updateCartItemQuantity(quantity - 1);
+                                }
+                              },
                             ),
-                            const Text('1'),
+                            Text(widget.productItem.quantity.toString()),
                             IconButton(
                               icon: const Icon(Icons.add),
-                              onPressed: () {},
+                              onPressed: () {
+                                _updateCartItemQuantity(widget.productItem.quantity + 1);
+                              },
                             ),
-                            IconButton(onPressed: () {},
-                                icon: const Icon(Icons.restore_from_trash)
+                            IconButton(
+                                onPressed: () {
+                                  GetIt.instance<CartCubit>().deleteCartItem(
+                                      widget.productItem.product.id,
+                                      widget.productItem.selectedVariant?.id
+                                  );
+                                },
+                                icon: const Icon(FontAwesomeIcons.xmark)
                             )
                           ],
                         ),

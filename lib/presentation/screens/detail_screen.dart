@@ -1,17 +1,17 @@
-import 'package:badges/badges.dart' as badges;
 import 'package:electro_shop/constants.dart';
+import 'package:electro_shop/data/services/auth_service.dart';
 import 'package:electro_shop/domain/entities/product_entity.dart';
 import 'package:electro_shop/domain/entities/product_item_entity.dart';
 import 'package:electro_shop/domain/entities/variant_entity.dart';
+import 'package:electro_shop/presentation/bloc/cart_cubit.dart';
 import 'package:electro_shop/presentation/bloc/product_detail_cubit.dart';
 import 'package:electro_shop/presentation/screens/checkout_screen.dart';
 import 'package:electro_shop/presentation/utils/format_price.dart';
-import 'package:electro_shop/presentation/utils/theme_provider.dart';
+import 'package:electro_shop/presentation/widgets/cart_icon_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key});
@@ -38,27 +38,8 @@ class _DetailScreenState extends State<DetailScreen> {
             style: TextStyle(fontSize: headerSize),
           ),
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              onPressed: () {},
-              icon: badges.Badge(
-                position: badges.BadgePosition.topEnd(top: -15, end: -15),
-                badgeContent: const Text('3'),
-                child: Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, _) {
-                    return Icon(
-                      FontAwesomeIcons.cartShopping,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
+        actions: const [
+          CartIconWidget()
         ],
       ),
       body: BlocProvider(
@@ -229,9 +210,8 @@ class _DetailScreenState extends State<DetailScreen> {
               child: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min, // Chiều cao tự động theo nội dung
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Thanh kéo
                     Center(
                       child: Container(
                         margin: const EdgeInsets.only(bottom: 8),
@@ -260,7 +240,6 @@ class _DetailScreenState extends State<DetailScreen> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    // Ảnh sản phẩm và giá
                     Row(
                       children: [
                         Image.network(
@@ -338,7 +317,22 @@ class _DetailScreenState extends State<DetailScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            bool isUserLoggedIn = await AuthService.instance.hasValidCredentials();
+                            if(!isUserLoggedIn) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text("Bạn chưa đăng nhập"),
+                                      duration: Duration(seconds: 1),
+                                  )
+                                );
+                              });
+                            } else {
+                              GetIt.instance<CartCubit>()
+                                  .addCartItem(_product.id, _selectedVariant?.id, _currentQuantity);
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: const Color(buttonPrimaryColor),
                             shape: RoundedRectangleBorder(
