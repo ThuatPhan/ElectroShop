@@ -10,7 +10,6 @@ class ProductModel extends ProductEntity {
   final double price;
   final int stock;
   final CategoryModel category;
-  final bool isVariant;
   final List<VariantModel>? variants;
 
   ProductModel(
@@ -21,7 +20,6 @@ class ProductModel extends ProductEntity {
       required this.price,
       required this.stock,
       required this.category,
-      required this.isVariant,
       this.variants})
       : super(
             id: id,
@@ -31,7 +29,6 @@ class ProductModel extends ProductEntity {
             price: price,
             stock: stock,
             category: category,
-            isVariant: isVariant,
             variants: variants);
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -53,7 +50,6 @@ class ProductModel extends ProductEntity {
         price: json['price'],
         stock: json['stock'],
         category: category,
-        isVariant: json['isVariant'],
         variants: variants);
   }
 }

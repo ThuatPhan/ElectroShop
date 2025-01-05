@@ -25,4 +25,16 @@ abstract class ApiSource {
     Map<String, dynamic>? body,
     T Function(dynamic json)? fromJson,
   });
+
+  Future<T> putData<T>(
+      String endpoint, {
+        Map<String, String>? headers,
+        Map<String, dynamic>? body,
+        T Function(dynamic json)? fromJson,
+      });
+
+  Future<void> deleteData(
+      String endpoint, {
+        Map<String, String>? headers,
+      });
 }

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 
 class ProductWidget extends StatelessWidget {
   final ProductEntity product;
-
   const ProductWidget({super.key, required this.product});
 
   String _formatPrice (double price) {
@@ -15,6 +14,11 @@ class ProductWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+          context,
+          '/detail',
+          arguments: {'productId': product.id}
+      ),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -51,23 +55,6 @@ class ProductWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                minimumSize: const Size(200,20), // Set width and height
-              ),
-              child: const Text(
-                'Thêm vào giỏ',
-                style: TextStyle(
-                  color: Colors.white
-                ),
-              ),
-            ),
             ],
           ),
         ),

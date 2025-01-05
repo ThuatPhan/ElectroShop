@@ -1,13 +1,12 @@
-import 'package:badges/badges.dart' as badges;
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/presentation/bloc/products_cubit.dart';
+import 'package:electro_shop/presentation/screens/cart_screen.dart';
 import 'package:electro_shop/presentation/screens/profile_screen.dart';
 import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:electro_shop/presentation/widgets/banner_widget.dart';
+import 'package:electro_shop/presentation/widgets/cart_icon_widget.dart';
 import 'package:electro_shop/presentation/widgets/category_section_widget.dart';
 import 'package:electro_shop/presentation/widgets/product_section_widget.dart';
-import 'package:electro_shop/presentation/widgets/search_widget.dart';
-import 'package:electro_shop/presentation/widgets/ship_location_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
@@ -24,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final ScrollController _scrollController = ScrollController();
-  late List<AppBar> _appBars;
+  late List<AppBar?> _appBars;
   late List<Widget> _screens;
   final List<SalomonBottomBarItem> _bottomBarItems = [
     SalomonBottomBarItem(
@@ -54,33 +53,23 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _appBars = [
       AppBar(
-        // backgroundColor: Colors.green,
-        title: const ShipLocationWidget(),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-                onPressed: () {},
-                icon: badges.Badge(
-                    position: badges.BadgePosition.topEnd(top: -15, end: -15),
-                    badgeContent: const Text('3'),
-                    child: Consumer<ThemeProvider>(
-                      builder: (context, themeProvider, _) {
-                        return Icon(
-                          FontAwesomeIcons.cartShopping,
-                          color: themeProvider.themeMode == ThemeMode.dark
-                              ? Colors.white
-                              : Colors.black,
-                        );
-                      },
-                    ),
-                )
-            ),
-          ),
+        leading: Image.asset(
+          'assets/images/shopping-cart.gif',
+          height: 50,
+          width: 50,
+        ),
+        title: const Center(
+            child: Text(
+                'ShopDuck',
+                style: TextStyle(fontWeight: FontWeight.bold,color: Colors.green)
+            )
+        ),
+        actions: const [
+          CartIconWidget()
         ],
       ),
-      AppBar(),
-      AppBar(),
+      null,
+      null,
       AppBar(
         backgroundColor: Colors.green,
       ),
@@ -98,7 +87,43 @@ class _HomeScreenState extends State<HomeScreen> {
             slivers: [
               //Search
               SliverToBoxAdapter(
-                child: SearchWidget(),
+                child: Consumer<ThemeProvider>(
+                    builder: (context, themeProvider, _) => GestureDetector(
+                      onTap: () => Navigator.pushNamed(context, '/search'),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 0.5,
+                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.white : Colors.black
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                  width: 50,
+                                  child: Icon(FontAwesomeIcons.magnifyingGlass)
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  enabled: false,
+                                  decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: 'Tìm tên sản phẩm ...',
+                                      hintStyle: TextStyle(
+                                          fontSize: titleSize
+                                      )
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
+                ),
               ),
               const SliverToBoxAdapter(
                 child: SizedBox(height: 10),
@@ -122,9 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const Center(
         child: Text("Yêu thích"),
       ),
-      const Center(
-        child: Text("Lịch sử"),
-      ),
+      const CartScreen(),
       const ProfileScreen()
     ];
     _scrollController.addListener(_scrollListener);
@@ -139,7 +162,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _scrollListener() {
     if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
-      debugPrint('Reached the end of the list');
       var cubit = GetIt.instance<ProductsCubit>();
       cubit.loadMore();
     }

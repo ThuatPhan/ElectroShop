@@ -9,6 +9,7 @@ class GetProducts implements UseCase<PagedModel<ProductEntity>, GetProductsParam
 
   @override
   Future<PagedModel<ProductEntity>> call(GetProductsParams getProductsParams) async {
-    return await productRepository.getProducts(getProductsParams.pageNumber, getProductsParams.pageSize);
+    return await productRepository
+        .getProducts(getProductsParams.pageNumber, getProductsParams.pageSize);
   }
 }

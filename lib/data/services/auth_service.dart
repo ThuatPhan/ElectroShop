@@ -20,9 +20,9 @@ class AuthService {
   Future<Credentials> login() async {
     return await auth0.webAuthentication()
         .login(
-      redirectUrl: callbackUrl,
-      audience: audience,
-    );
+        redirectUrl: callbackUrl,
+        audience: audience,
+      );
   }
 
   Future<String> getAccessToken() async {
