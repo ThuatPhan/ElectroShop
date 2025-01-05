@@ -102,7 +102,7 @@ class _LocationPickerState extends State<LocationPicker> {
         }).toList());
       });
     } else {
-      print("Error: ${response.statusCode}");
+      debugPrint("Error: ${response.statusCode}");
     }
   }
 }

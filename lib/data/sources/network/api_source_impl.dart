@@ -22,7 +22,7 @@ class ApiSourceImpl implements ApiSource {
       if (fromJson != null) {
         return fromJson(jsonResponse['data']);
       } else {
-        throw Exception("fromJson function must be provided for type $T");
+        return jsonResponse['data'];
       }
     } else {
       throw Exception('Failed to fetch data: ${response.statusCode}');
@@ -85,14 +85,55 @@ class ApiSourceImpl implements ApiSource {
     );
 
     if (response.statusCode == 200 || response.statusCode == 201) {
-      final data = jsonDecode(response.body);
+      final jsonResponse = jsonDecode(response.body);
       if (fromJson != null) {
-        return fromJson(data);
+        return fromJson(jsonResponse['data']);
       } else {
         throw Exception("fromJson function must be provided for type $T");
       }
     } else {
       throw Exception('Failed to post data: ${response.statusCode}');
+    }
+  }
+
+  @override
+  Future<void> deleteData(
+      String endpoint,
+      {Map<String, String>? headers
+  }) async {
+    try {
+      final response = await http.delete(Uri.parse('$baseUrl$endpoint'), headers: headers);
+      if (response.statusCode != 204) {
+        throw Exception("Failed to delete data");
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
+
+  @override
+  Future<T> putData<T>(
+      String endpoint,
+      {Map<String, String>? headers,
+      Map<String, dynamic>? body,
+      T Function(Map<String, dynamic>)? fromJson
+  }) async {
+    try {
+      final response = await http.put(
+          Uri.parse('$baseUrl$endpoint'),
+          headers: headers,
+          body: jsonEncode(body)
+      );
+      if (response.statusCode != 200) {
+        throw Exception("Failed to update data");
+      }
+      var jsonResponse = await jsonDecode(response.body);
+      if(fromJson != null) {
+        return fromJson(jsonResponse['data']);
+      }
+      return jsonResponse['data'];
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

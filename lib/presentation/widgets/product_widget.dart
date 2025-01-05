@@ -1,12 +1,10 @@
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/domain/entities/product_entity.dart';
-import 'package:electro_shop/presentation/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ProductWidget extends StatelessWidget {
   final ProductEntity product;
-
   const ProductWidget({super.key, required this.product});
 
   String _formatPrice (double price) {
@@ -57,25 +55,6 @@ class ProductWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => const CartScreen(),));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(buttonPrimaryColor),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                minimumSize: const Size(200,20), // Set width and height
-              ),
-              child: const Text(
-                'Thêm vào giỏ',
-                style: TextStyle(
-                  color: Colors.white
-                ),
-              ),
-            ),
             ],
           ),
         ),
