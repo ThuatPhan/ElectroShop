@@ -32,9 +32,9 @@ class ProductApiSourceImpl implements ProductApiSource{
   }
 
   @override
-  Future<PagedModel<ProductModel>> fetchSearchProducts(String keyword, int pageNumber, int pageSize) async {
-    return await apiSource.getPagedList<ProductModel>(
-      'product/search?keyword=$keyword&pageNumber=$pageNumber&pageSize=$pageSize',
+  Future<List<ProductModel>> fetchSearchProducts(String keyword) async {
+    return await apiSource.getList<ProductModel>(
+      'product/search?keyword=$keyword',
       fromJson: (json) => ProductModel.fromJson(json),
     );
   }

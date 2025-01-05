@@ -22,10 +22,8 @@ class GetProductOfCategoryParams{
 
 class SearchProductParams {
   String keyword;
-  int pageNumber;
-  int pageSize;
 
-  SearchProductParams({required this.keyword, required this.pageNumber, required this.pageSize});
+  SearchProductParams({required this.keyword});
 }
 
 class AddCartItemParams {

@@ -5,6 +5,5 @@ abstract class ProductRepository {
   Future<PagedModel<ProductEntity>> getProducts (int pageNumber, int pageSize);
   Future<ProductEntity> getProduct(int productId);
   Future<PagedModel<ProductEntity>> getProductOfCategory(int categoryId, int pageNumber, int pageSize);
-  Future<PagedModel<ProductEntity>> searchProducts(String keyword, int pageNumber, int pageSize);
-
+  Future<List<ProductEntity>> searchProducts(String keyword);
 }

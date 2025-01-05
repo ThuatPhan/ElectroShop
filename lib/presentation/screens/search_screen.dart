@@ -1,11 +1,9 @@
-import 'package:badges/badges.dart' as badges;
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/data/services/search_history_service.dart';
-import 'package:electro_shop/presentation/utils/theme_provider.dart';
+import 'package:electro_shop/presentation/widgets/cart_icon_widget.dart';
 import 'package:electro_shop/presentation/widgets/search_box.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -45,27 +43,8 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const SearchBox(),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8.0),
-            child: IconButton(
-              onPressed: () {},
-              icon: badges.Badge(
-                position: badges.BadgePosition.topEnd(top: -15, end: -15),
-                badgeContent: const Text('3'),
-                child: Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, _) {
-                    return Icon(
-                      FontAwesomeIcons.cartShopping,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
+        actions: const [
+          CartIconWidget()
         ],
       ),
       body: Padding(
