@@ -2,7 +2,7 @@ import 'package:electro_shop/presentation/bloc/products_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'home_screen.dart'; // Đảm bảo import đúng file HomeScreen của bạn.
+import 'home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});

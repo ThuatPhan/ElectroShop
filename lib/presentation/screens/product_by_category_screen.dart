@@ -18,36 +18,11 @@ class ProductByCategoryScreen extends StatefulWidget {
 }
 
 class _ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
-  final ScrollController _scrollController = ScrollController();
-  late int _categoryId;
-
-  void _scrollListener() {
-    if (_scrollController.position.pixels >=
-        _scrollController.position.maxScrollExtent - 50) {
-      var cubit = GetIt.instance<ProductOfCategoryCubit>();
-      cubit.loadMore(_categoryId);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController.addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.removeListener(_scrollListener);
-    _scrollController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, int>;
     int categoryId = args['categoryId']!;
-    _categoryId = categoryId;
-    debugPrint('$categoryId');
     return Scaffold(
       appBar: AppBar(
         title: const Center(
@@ -81,22 +56,17 @@ class _ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
       ),
       body: BlocProvider(
         create: (context) => GetIt.instance<ProductOfCategoryCubit>()
-          ..getProductOfCategory(categoryId, 1, productPerPage),
+          ..getProductOfCategory(categoryId),
         child: BlocBuilder<ProductOfCategoryCubit, ProductOfCategoryState>(
           builder: (context, state) {
             if (state is LoadingProductOfCategory) {
-              final prevProducts = state.prevProducts ?? [];
               return CustomScrollView(
-                controller: _scrollController,
                 slivers: [
                   SliverPadding(
                     padding: const EdgeInsets.all(8.0),
                     sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                          if (index < prevProducts.length) {
-                            return ProductWidget(product: prevProducts[index]);
-                          }
+                        (BuildContext context, int index) {
                           return Shimmer.fromColors(
                             baseColor: Colors.grey[300]!,
                             highlightColor: Colors.grey[100]!,
@@ -108,7 +78,7 @@ class _ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
                             ),
                           );
                         },
-                        childCount: prevProducts.length + productPerPage,
+                        childCount:  productPerPage,
                       ),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
@@ -122,15 +92,18 @@ class _ProductByCategoryScreenState extends State<ProductByCategoryScreen> {
               );
             }
             if (state is ProductOfCategoryLoadSuccess) {
+              if(state.products.isEmpty) {
+                return const Center(
+                  child: Text("Không có sản phẩm nào"),
+                );
+              }
               return CustomScrollView(
-                controller: _scrollController,
                 slivers: [
                   SliverPadding(
                     padding: const EdgeInsets.all(8.0),
                     sliver: SliverGrid(
                       delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) =>
-                            ProductWidget(product: state.products[index]),
+                        (BuildContext context, int index) => ProductWidget(product: state.products[index]),
                         childCount: state.products.length,
                       ),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
