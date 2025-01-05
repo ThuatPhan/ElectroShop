@@ -15,9 +15,7 @@ class GetProductParams{
 
 class GetProductOfCategoryParams{
   int categoryId;
-  int pageNumber;
-  int pageSize;
-  GetProductOfCategoryParams({required this.categoryId,required this.pageNumber,required this.pageSize});
+  GetProductOfCategoryParams({required this.categoryId});
 }
 
 class SearchProductParams {

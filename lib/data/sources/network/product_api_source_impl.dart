@@ -24,9 +24,9 @@ class ProductApiSourceImpl implements ProductApiSource{
   }
 
   @override
-  Future<PagedModel<ProductModel>> fetchGetProductOfCategory(int categoryId, int pageNumber, int pageSize) async{
-    return await apiSource.getPagedList<ProductModel>(
-      'Product/category/$categoryId?pageNumber=$pageNumber&pageSize=$pageSize',
+  Future<List<ProductModel>> fetchGetProductOfCategory(int categoryId) async{
+    return await apiSource.getList<ProductModel>(
+      'Product/category/$categoryId',
       fromJson: (json) => ProductModel.fromJson(json),
     );
   }
