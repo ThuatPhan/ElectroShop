@@ -1,6 +1,7 @@
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/data/repositories/cart_repository_impl.dart';
 import 'package:electro_shop/data/repositories/category_repository_impl.dart';
+import 'package:electro_shop/data/repositories/order_repository_impl.dart';
 import 'package:electro_shop/data/repositories/product_repository_impl.dart';
 import 'package:electro_shop/data/sources/network/api_source.dart';
 import 'package:electro_shop/data/sources/network/api_source_impl.dart';
@@ -8,15 +9,19 @@ import 'package:electro_shop/data/sources/network/cart_api_source.dart';
 import 'package:electro_shop/data/sources/network/cart_api_source_impl.dart';
 import 'package:electro_shop/data/sources/network/category_api_source.dart';
 import 'package:electro_shop/data/sources/network/category_api_source_impl.dart';
+import 'package:electro_shop/data/sources/network/order_api_source.dart';
+import 'package:electro_shop/data/sources/network/order_api_source_impl.dart';
 import 'package:electro_shop/data/sources/network/product_api_source.dart';
 import 'package:electro_shop/data/sources/network/product_api_source_impl.dart';
 import 'package:electro_shop/domain/repositories/cart_repository.dart';
 import 'package:electro_shop/domain/repositories/category_repository.dart';
+import 'package:electro_shop/domain/repositories/order_repository.dart';
 import 'package:electro_shop/domain/repositories/product_repository.dart';
 import 'package:electro_shop/domain/use_case/add_cart_item.dart';
 import 'package:electro_shop/domain/use_case/delete_cart_item.dart';
 import 'package:electro_shop/domain/use_case/get_cart_items.dart';
 import 'package:electro_shop/domain/use_case/get_categories.dart';
+import 'package:electro_shop/domain/use_case/get_orders.dart';
 import 'package:electro_shop/domain/use_case/get_product.dart';
 import 'package:electro_shop/domain/use_case/get_products.dart';
 import 'package:electro_shop/domain/use_case/search_product.dart';
@@ -25,6 +30,7 @@ import 'package:electro_shop/presentation/bloc/auth_cubit.dart';
 import 'package:electro_shop/presentation/bloc/cart_cubit.dart';
 import 'package:electro_shop/presentation/bloc/cart_item_cubit.dart';
 import 'package:electro_shop/presentation/bloc/categories_cubit.dart';
+import 'package:electro_shop/presentation/bloc/order_cubit.dart';
 import 'package:electro_shop/presentation/bloc/product_detail_cubit.dart';
 import 'package:electro_shop/presentation/bloc/product_of_category_cubit.dart';
 import 'package:electro_shop/presentation/bloc/products_cubit.dart';
@@ -43,10 +49,12 @@ class DependencyInjection {
     getIt.registerFactory<CategoryApiSource>(() => CategoryApiSourceImpl(apiSource: getIt<ApiSource>()));
     getIt.registerFactory<ProductApiSource>(() => ProductApiSourceImpl(apiSource: getIt<ApiSource>()));
     getIt.registerFactory<CartApiSource>(() => CartApiSourceImpl(apiSource:getIt<ApiSource>()));
+    getIt.registerFactory<OrderApiSource>(()=>OrderApiSourceImpl(apiSource: getIt<ApiSource>()));
     //Repositories
     getIt.registerFactory<CategoryRepository>(() => CategoryRepositoryImpl(categoryApiSource: getIt<CategoryApiSource>()));
     getIt.registerFactory<ProductRepository>(() => ProductRepositoryImpl(productApiSource: getIt<ProductApiSource>()));
     getIt.registerFactory<CartRepository>(() => CartRepositoryImpl(cartApiSource: getIt<CartApiSource>()));
+    getIt.registerFactory<OrderRepository>(()=>OrderRepositoryImpl(orderApiSource: getIt<OrderApiSource>()));
     //Use cases
     getIt.registerFactory<GetCategories>(() => GetCategories(categoryRepository: getIt<CategoryRepository>()));
     getIt.registerFactory<GetProducts>(() => GetProducts(productRepository: getIt<ProductRepository>()));
@@ -57,6 +65,7 @@ class DependencyInjection {
     getIt.registerFactory<GetCartItems>(() => GetCartItems(cartRepository: getIt<CartRepository>()));
     getIt.registerFactory<DeleteCartItem>(() => DeleteCartItem(cartRepository: getIt<CartRepository>()));
     getIt.registerFactory<UpdateCartItem>(() => UpdateCartItem(cartRepository: getIt<CartRepository>()));
+    getIt.registerFactory<GetOrders>(()=> GetOrders(orderRepository: getIt<OrderRepository>()));
     //Cubits
     getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit(useCase: getIt<GetCategories>())..getCategories());
     getIt.registerSingleton<ProductsCubit>(ProductsCubit(useCase: getIt<GetProducts>())..getProducts(1, productPerPage));
@@ -71,5 +80,6 @@ class DependencyInjection {
         deleteCartItemUseCase: getIt<DeleteCartItem>()
       )
     );
+    getIt.registerFactory<OrderCubit>(()=> OrderCubit(useCase: getIt<GetOrders>())..getOrders());
   }
 }
