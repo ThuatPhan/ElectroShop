@@ -1,6 +1,7 @@
 import 'package:auth0_flutter/auth0_flutter.dart';
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/presentation/bloc/auth_cubit.dart';
+import 'package:electro_shop/presentation/screens/purchase_history_screen.dart';
 import 'package:electro_shop/presentation/utils/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -159,27 +160,30 @@ class ProfileScreen extends StatelessWidget {
                                 )
                             )
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        color: Colors.blue
-                                    ),
-                                    child: const Padding(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Icon(FontAwesomeIcons.clock, color: Colors.white)
-                                    )
-                                ),
-                                const SizedBox(width: 10),
-                                const Text("Đơn hàng đã mua")
-                              ],
-                            ),
-                            const Icon(Icons.keyboard_arrow_right_outlined)
-                          ],
+                        child: GestureDetector(
+                          onTap: () => Navigator.push(context,MaterialPageRoute(builder: (context) => PurchaseHistoryScreen(),)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8.0),
+                                          color: Colors.blue
+                                      ),
+                                      child: const Padding(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Icon(FontAwesomeIcons.clock, color: Colors.white)
+                                      )
+                                  ),
+                                  const SizedBox(width: 10),
+                                  const Text("Đơn hàng đã mua")
+                                ],
+                              ),
+                              const Icon(Icons.keyboard_arrow_right_outlined)
+                            ],
+                          ),
                         ),
                       ),
                       Container(
