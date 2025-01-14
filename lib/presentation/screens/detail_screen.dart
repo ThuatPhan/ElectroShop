@@ -319,18 +319,15 @@ class _DetailScreenState extends State<DetailScreen> {
                         ElevatedButton(
                           onPressed: () async {
                             bool isUserLoggedIn = await AuthService.instance.hasValidCredentials();
-                            if(!isUserLoggedIn) {
-                              WidgetsBinding.instance.addPostFrameCallback((_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text("Bạn chưa đăng nhập"),
-                                      duration: Duration(seconds: 1),
-                                  )
-                                );
-                              });
+                            if (!isUserLoggedIn) {
+                              _showPopupMessage(context, "Bạn chưa đăng nhập");
                             } else {
+                              // Thêm sản phẩm vào giỏ hàng
                               GetIt.instance<CartCubit>()
                                   .addCartItem(_product.id, _selectedVariant?.id, _currentQuantity);
+
+                              // Hiển thị thông báo "Thêm giỏ hàng thành công"
+                              _showPopupMessage(context, "Thêm giỏ hàng thành công");
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -344,6 +341,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
+
                         ElevatedButton(
                           onPressed: () {
                             Navigator.push(
@@ -384,4 +382,38 @@ class _DetailScreenState extends State<DetailScreen> {
     );
   }
 
+}
+void _showPopupMessage(BuildContext context, String message) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) {
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.of(context).pop();
+      });
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.check_circle,
+              color: Colors.green,
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              message,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }
