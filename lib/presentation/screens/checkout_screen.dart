@@ -1,18 +1,15 @@
 import 'dart:convert';
 
-import 'package:badges/badges.dart' as badges;
 import 'package:electro_shop/constants.dart';
 import 'package:electro_shop/data/services/auth_service.dart';
 import 'package:electro_shop/domain/entities/product_item_entity.dart';
 import 'package:electro_shop/presentation/utils/format_price.dart';
-import 'package:electro_shop/presentation/utils/theme_provider.dart';
+import 'package:electro_shop/presentation/widgets/cart_icon_widget.dart';
 import 'package:electro_shop/presentation/widgets/location_picker_widget.dart';
 import 'package:electro_shop/presentation/widgets/product_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart' as stripe;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart';
-import 'package:provider/provider.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key, required this.products});
@@ -166,27 +163,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             style: TextStyle(fontSize: headerSize)
           )
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              onPressed: () {},
-              icon: badges.Badge(
-                position: badges.BadgePosition.topEnd(top: -15, end: -15),
-                badgeContent: const Text('3'),
-                child: Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, _) {
-                    return Icon(
-                      FontAwesomeIcons.cartShopping,
-                      color: themeProvider.themeMode == ThemeMode.dark
-                          ? Colors.white
-                          : Colors.black,
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),
+        actions: const [
+          CartIconWidget()
         ],
       ),
       body: Column(
